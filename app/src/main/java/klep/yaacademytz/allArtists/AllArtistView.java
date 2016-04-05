@@ -13,4 +13,5 @@ public interface AllArtistView extends MvpView {
     void showLoading();
     void showError();
     void showAllArtist(List<Artist> artists);
+    void showGetArtists();
 }

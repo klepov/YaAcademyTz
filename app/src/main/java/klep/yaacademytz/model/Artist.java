@@ -1,44 +1,49 @@
 
 package klep.yaacademytz.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Generated;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.hannesdorfmann.parcelableplease.annotation.ParcelablePlease;
 
 
+@ParcelablePlease
 @Generated("org.jsonschema2pojo")
-public class Artist {
+public class Artist implements Parcelable {
 
     @SerializedName("id")
     @Expose
-    private Integer id;
+    public Integer id;
     @SerializedName("name")
     @Expose
-    private String name;
+    public String name;
     @SerializedName("genres")
     @Expose
-    private List<String> genres = new ArrayList<String>();
+    public List<String> genres = new ArrayList<String>();
     @SerializedName("tracks")
     @Expose
-    private Integer tracks;
+    public Integer tracks;
     @SerializedName("albums")
     @Expose
-    private Integer albums;
+    public Integer albums;
     @SerializedName("link")
     @Expose
-    private String link;
+    public String link;
     @SerializedName("description")
     @Expose
-    private String description;
+    public String description;
     @SerializedName("cover")
     @Expose
-    private Cover cover;
+    public Cover cover;
 
-    private String ALBUMS = " альбомов";
+    public String ALBUMS = " альбомов";
 
-    private String SONGS = " песен";
+    public String SONGS = " песен";
 
 
     /**
@@ -215,4 +220,26 @@ public class Artist {
         String prepareSongs = getTracks() + SONGS;
         return  fullCount = prepareAlbums+", "+ prepareSongs;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        ArtistParcelablePlease.writeToParcel(this, dest, flags);
+    }
+
+    public static final Creator<Artist> CREATOR = new Creator<Artist>() {
+        public Artist createFromParcel(Parcel source) {
+            Artist target = new Artist();
+            ArtistParcelablePlease.readFromParcel(target, source);
+            return target;
+        }
+
+        public Artist[] newArray(int size) {
+            return new Artist[size];
+        }
+    };
 }

@@ -13,6 +13,7 @@ import klep.yaacademytz.App;
 import klep.yaacademytz.api.YaApi;
 import klep.yaacademytz.model.Artist;
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 /**
@@ -32,6 +33,8 @@ public class AllArtistPresenter extends MvpBasePresenter<AllArtistView> {
     }
 
     public void getArtists(){
+
+        Log.d("kek3","getArtist");
         if (getView() != null){
             getView().showLoading();
         }
@@ -39,7 +42,7 @@ public class AllArtistPresenter extends MvpBasePresenter<AllArtistView> {
         subscriber = new Subscriber<List<Artist>>() {
             @Override
             public void onCompleted() {
-                getView().showAllArtist(artists);
+//                getView().showAllArtist(artists);
 
 
             }
@@ -52,12 +55,14 @@ public class AllArtistPresenter extends MvpBasePresenter<AllArtistView> {
 
             @Override
             public void onNext(List<Artist> list) {
-                artists = list;
+                getView().showAllArtist(list);
+
             }
         };
 
         yaApi.getArtist()
                 .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(subscriber);
     }
 

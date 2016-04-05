@@ -27,8 +27,10 @@ extends MvpViewStateFragment<V,P>{
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(getLayoutRes(),container,false);
+        ButterKnife.bind(this,view);
         Icepick.restoreInstanceState(this,savedInstanceState);
-        return inflater.inflate(getLayoutRes(),container,false);
+        return view;
     }
 
     @Override
@@ -40,7 +42,6 @@ extends MvpViewStateFragment<V,P>{
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ButterKnife.bind(this,view);
     }
 
     @Override

@@ -5,10 +5,12 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -20,11 +22,14 @@ import klep.yaacademytz.model.Artist;
 /**
  * Created by klep.io on 03.04.16.
  */
-public class AllArtistFragment extends BaseViewStateFragment<AllArtistView,AllArtistPresenter>
-    implements AllArtistView{
+public class AllArtistFragment extends BaseViewStateFragment<AllArtistView, AllArtistPresenter>
+        implements AllArtistView {
     @Bind(R.id.recycleArtists)
     RecyclerView recyclerView;
     private AdapterArtists adapter;
+    private List<Artist> artists;
+    private LinearLayoutManager layoutManager;
+    private Bundle bundle;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,22 +37,27 @@ public class AllArtistFragment extends BaseViewStateFragment<AllArtistView,AllAr
         setRetainInstance(true);
     }
 
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+
         super.onViewCreated(view, savedInstanceState);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        bundle = savedInstanceState;
+
+        layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+        if (bundle == null) {
+            artists = new ArrayList<>();
+        }
+        adapter = new AdapterArtists(artists);
+        recyclerView.setAdapter(adapter);
+
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        presenter.getArtists();
-
-    }
 
     @Override
     public void showLoading() {
-
     }
 
     @Override
@@ -56,10 +66,19 @@ public class AllArtistFragment extends BaseViewStateFragment<AllArtistView,AllAr
     }
 
     @Override
-    public void showAllArtist(List<Artist> artists) {
-        adapter = new AdapterArtists(artists);
-        recyclerView.setAdapter(adapter);
+    public void showAllArtist(List<Artist> listArtists) {
+        Log.d("update_artists", "receive");
+        artists.addAll(listArtists);
+        adapter.notifyDataSetChanged();
+        Log.d("update_artists", "notifyDataSetChanged");
 
+    }
+
+    @Override
+    public void showGetArtists() {
+        if (bundle == null) {
+            presenter.getArtists();
+        }
     }
 
     @Override
@@ -75,7 +94,7 @@ public class AllArtistFragment extends BaseViewStateFragment<AllArtistView,AllAr
 
     @Override
     public void onNewViewStateInstance() {
-
+        showGetArtists();
     }
 
     @Override

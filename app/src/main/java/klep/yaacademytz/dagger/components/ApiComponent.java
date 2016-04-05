@@ -3,7 +3,6 @@ package klep.yaacademytz.dagger.components;
 import android.app.Activity;
 
 import dagger.Component;
-import klep.yaacademytz.MainActivity;
 import klep.yaacademytz.allArtists.AllArtistPresenter;
 import klep.yaacademytz.dagger.modules.ApiModule;
 import klep.yaacademytz.dagger.scopes.UserScope;

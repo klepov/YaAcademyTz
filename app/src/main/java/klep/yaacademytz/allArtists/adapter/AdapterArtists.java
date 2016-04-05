@@ -2,6 +2,7 @@ package klep.yaacademytz.allArtists.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,7 @@ import klep.yaacademytz.model.Artist;
 /**
  * Created by klep.io on 03.04.16.
  */
-public class AdapterArtists extends RecyclerView.Adapter<AdapterArtists.ViewHolder>{
+public class AdapterArtists extends RecyclerView.Adapter<AdapterArtists.ViewHolder> {
 
     private List<Artist> artists;
 
@@ -35,15 +36,21 @@ public class AdapterArtists extends RecyclerView.Adapter<AdapterArtists.ViewHold
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
-        View artistView = inflater.inflate(R.layout.artsit_prev,parent,false);
+        View artistView = inflater.inflate(R.layout.artsit_prev, parent, false);
 
-        ViewHolder viewHolder = new ViewHolder(artistView);
+        ViewHolder viewHolder = new ViewHolder(artistView, new ViewHolder.ViewHolderCallback() {
+            @Override
+            public void itemSelected(int itemNum) {
+                Log.d("item", artists.get(itemNum).getName());
+            }
+        });
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Artist artist = artists.get(position);
+
 
         holder.nameArtist.setText(artist.getName());
         holder.genreArtist.setText(artist.getFullGenre());
@@ -61,7 +68,11 @@ public class AdapterArtists extends RecyclerView.Adapter<AdapterArtists.ViewHold
         return artists.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+        public ViewHolderCallback callback;
+
         @Bind(R.id.nameArtist)
         TextView nameArtist;
 
@@ -74,9 +85,29 @@ public class AdapterArtists extends RecyclerView.Adapter<AdapterArtists.ViewHold
         @Bind(R.id.imagePrevArtist)
         ImageView imageArtists;
 
-        public ViewHolder(View itemView) {
+        /**
+         * инжектит view.
+         * реализует callback для выбранного элемента
+         * @param itemView
+         * @param callback
+         */
+        public ViewHolder(View itemView, ViewHolderCallback callback) {
             super(itemView);
-            ButterKnife.bind(this,itemView);
+            ButterKnife.bind(this, itemView);
+
+            this.callback = callback;
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+//            отправляет в адаптер id выбранного артиста
+            callback.itemSelected(getLayoutPosition());
+        }
+
+        public interface ViewHolderCallback {
+            void itemSelected(int itemNum);
+        }
+
     }
 }
