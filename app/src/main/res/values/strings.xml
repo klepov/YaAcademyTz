@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">YaAcademyTz</string>
-    <string name="image_preview">image Preview</string>
+    <string name="artist_image_desc">Изображение артиста</string>
     <string name="albumsCount">альбомов</string>
     <string name="songsCount">песен</string>
+    <string name="title_masterartist_list">DetailArtist</string>
+    <string name="title_masterartist_detail">MasterArtist Detail</string>
+    <string name="biography">Биография</string>
 </resources>

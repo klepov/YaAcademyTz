@@ -2,7 +2,6 @@ package klep.yaacademytz.allArtists.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,12 +21,20 @@ import klep.yaacademytz.model.Artist;
 /**
  * Created by klep.io on 03.04.16.
  */
+
+/*
+* в адаптере два коллбека
+* 1 коллбек - вытаскивает id по клику на item
+* 2 коллбек - пробрасывет id полученый с первого коллбека во фрагмент
+*/
 public class AdapterArtists extends RecyclerView.Adapter<AdapterArtists.ViewHolder> {
 
     private List<Artist> artists;
+    private CallbackItemClickListener callbackItemClickListener;
 
-    public AdapterArtists(List<Artist> artists) {
+    public AdapterArtists(List<Artist> artists, CallbackItemClickListener callbackItemClickListener) {
         this.artists = artists;
+        this.callbackItemClickListener = callbackItemClickListener;
     }
 
 
@@ -41,7 +48,8 @@ public class AdapterArtists extends RecyclerView.Adapter<AdapterArtists.ViewHold
         ViewHolder viewHolder = new ViewHolder(artistView, new ViewHolder.ViewHolderCallback() {
             @Override
             public void itemSelected(int itemNum) {
-                Log.d("item", artists.get(itemNum).getName());
+                callbackItemClickListener
+                        .itemClickedFromViewHolder(artists.get(itemNum));
             }
         });
         return viewHolder;
@@ -88,6 +96,7 @@ public class AdapterArtists extends RecyclerView.Adapter<AdapterArtists.ViewHold
         /**
          * инжектит view.
          * реализует callback для выбранного элемента
+         *
          * @param itemView
          * @param callback
          */
@@ -109,5 +118,10 @@ public class AdapterArtists extends RecyclerView.Adapter<AdapterArtists.ViewHold
             void itemSelected(int itemNum);
         }
 
+    }
+
+    public interface CallbackItemClickListener {
+//        2 callback
+        void itemClickedFromViewHolder(Artist artist);
     }
 }

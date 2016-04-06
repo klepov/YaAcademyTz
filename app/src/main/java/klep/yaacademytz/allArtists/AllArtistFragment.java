@@ -23,7 +23,7 @@ import klep.yaacademytz.model.Artist;
  * Created by klep.io on 03.04.16.
  */
 public class AllArtistFragment extends BaseViewStateFragment<AllArtistView, AllArtistPresenter>
-        implements AllArtistView {
+        implements AllArtistView, AdapterArtists.CallbackItemClickListener {
     @Bind(R.id.recycleArtists)
     RecyclerView recyclerView;
     private AdapterArtists adapter;
@@ -50,7 +50,7 @@ public class AllArtistFragment extends BaseViewStateFragment<AllArtistView, AllA
         if (bundle == null) {
             artists = new ArrayList<>();
         }
-        adapter = new AdapterArtists(artists);
+        adapter = new AdapterArtists(artists,this);
         recyclerView.setAdapter(adapter);
 
     }
@@ -104,4 +104,8 @@ public class AllArtistFragment extends BaseViewStateFragment<AllArtistView, AllA
     }
 
 
+    @Override
+    public void itemClickedFromViewHolder(Artist artist) {
+        Log.d("asd","asd");
+    }
 }
