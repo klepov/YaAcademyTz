@@ -1,11 +1,11 @@
 package klep.yaacademytz.allArtists;
 
+import android.app.Activity;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 
 import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
@@ -28,8 +28,9 @@ public class AllArtistFragment extends BaseViewStateFragment<AllArtistView, AllA
     RecyclerView recyclerView;
     private AdapterArtists adapter;
     private List<Artist> artists;
-    private LinearLayoutManager layoutManager;
     private Bundle bundle;
+
+    private ItemSendToActivity itemSendToActivity;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,11 @@ public class AllArtistFragment extends BaseViewStateFragment<AllArtistView, AllA
         setRetainInstance(true);
     }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        itemSendToActivity = (ItemSendToActivity) activity;
+    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
@@ -45,12 +51,12 @@ public class AllArtistFragment extends BaseViewStateFragment<AllArtistView, AllA
 
         bundle = savedInstanceState;
 
-        layoutManager = new LinearLayoutManager(getContext());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         if (bundle == null) {
             artists = new ArrayList<>();
         }
-        adapter = new AdapterArtists(artists,this);
+        adapter = new AdapterArtists(artists, this);
         recyclerView.setAdapter(adapter);
 
     }
@@ -67,10 +73,9 @@ public class AllArtistFragment extends BaseViewStateFragment<AllArtistView, AllA
 
     @Override
     public void showAllArtist(List<Artist> listArtists) {
-        Log.d("update_artists", "receive");
         artists.addAll(listArtists);
         adapter.notifyDataSetChanged();
-        Log.d("update_artists", "notifyDataSetChanged");
+        itemSendToActivity.itemSendFirst(listArtists.get(0));
 
     }
 
@@ -86,6 +91,7 @@ public class AllArtistFragment extends BaseViewStateFragment<AllArtistView, AllA
         return R.layout.fragment_artist;
     }
 
+    @NonNull
     @Override
     public ViewState createViewState() {
         // TODO: 03.04.16 dagger
@@ -97,6 +103,7 @@ public class AllArtistFragment extends BaseViewStateFragment<AllArtistView, AllA
         showGetArtists();
     }
 
+    @NonNull
     @Override
     public AllArtistPresenter createPresenter() {
         // TODO: 03.04.16 dagger
@@ -106,6 +113,11 @@ public class AllArtistFragment extends BaseViewStateFragment<AllArtistView, AllA
 
     @Override
     public void itemClickedFromViewHolder(Artist artist) {
-        Log.d("asd","asd");
+        itemSendToActivity.itemSend(artist);
+    }
+
+    public interface ItemSendToActivity {
+        void itemSend(Artist artist);
+        void itemSendFirst(Artist artist);
     }
 }
