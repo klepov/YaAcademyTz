@@ -1,6 +1,7 @@
 package klep.yaacademytz.dagger.modules;
 
 import android.app.Application;
+import android.content.Context;
 
 import javax.inject.Singleton;
 
@@ -13,6 +14,7 @@ import dagger.Provides;
 @Module
 public class AppModule {
     Application application;
+    Context context;
 
     public AppModule(Application application) {
         this.application = application;
@@ -22,5 +24,12 @@ public class AppModule {
     @Singleton
     Application provideApplication(){
         return application;
+    }
+
+    @Provides
+    @Singleton
+    Context provideContext(Application application){
+        context = application.getApplicationContext();
+        return context;
     }
 }

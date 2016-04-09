@@ -73,9 +73,8 @@ public class AllArtistPresenter extends MvpBasePresenter<AllArtistView> {
                     getView().showError();
                 }
                 else {
-                    gson.fromJson(json,Artist.class);
-                    List<Artist> kek = (List<Artist>) new Gson().fromJson(json,Artist.class);
-                    Log.d("asd","DAS");
+                    List<Artist> kek = gson.fromJson(json,new TypeToken<List<Artist>>(){}.getType());
+                    getView().showAllArtist(kek);
                 }
 
             }

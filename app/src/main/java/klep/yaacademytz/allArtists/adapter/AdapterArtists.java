@@ -1,6 +1,10 @@
 package klep.yaacademytz.allArtists.adapter;
 
+import android.app.Application;
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,15 +12,20 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mikepenz.iconics.Iconics;
+import com.mikepenz.iconics.IconicsDrawable;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import klep.yaacademytz.App;
 import klep.yaacademytz.R;
 import klep.yaacademytz.model.Artist;
+import klep.yaacademytz.utils.CustomFont;
 
 /**
  * Created by klep.io on 03.04.16.
@@ -29,10 +38,14 @@ import klep.yaacademytz.model.Artist;
 */
 public class AdapterArtists extends RecyclerView.Adapter<AdapterArtists.ViewHolder> {
 
+
+    @Inject
+    Context context;
     private List<Artist> artists;
     private CallbackItemClickListener callbackItemClickListener;
 
     public AdapterArtists(List<Artist> artists, CallbackItemClickListener callbackItemClickListener) {
+        App.getAppComponent().inject(this);
         this.artists = artists;
         this.callbackItemClickListener = callbackItemClickListener;
     }
@@ -59,6 +72,10 @@ public class AdapterArtists extends RecyclerView.Adapter<AdapterArtists.ViewHold
     public void onBindViewHolder(ViewHolder holder, int position) {
         Artist artist = artists.get(position);
 
+        Drawable asd = new IconicsDrawable(context)
+                .icon(CustomFont.Icon.cFont_wait)
+                .color(Color.GRAY)
+                .sizePx(300);
 
         holder.nameArtist.setText(artist.getName());
         holder.genreArtist.setText(artist.getFullGenre());
@@ -66,6 +83,7 @@ public class AdapterArtists extends RecyclerView.Adapter<AdapterArtists.ViewHold
 
         Picasso.with(App.getApplication())
                 .load(artist.getCover().getSmall())
+                .placeholder(asd)
                 .into(holder.imageArtists);
 
 

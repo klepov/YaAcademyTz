@@ -1,5 +1,7 @@
 package klep.yaacademytz.detailArtist;
 
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -7,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mikepenz.iconics.IconicsDrawable;
 import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
@@ -14,6 +17,7 @@ import klep.yaacademytz.AllArtistActivity;
 import klep.yaacademytz.R;
 import klep.yaacademytz.common.BaseFragment;
 import klep.yaacademytz.model.Artist;
+import klep.yaacademytz.utils.CustomFont;
 
 /**
  * Created by klep.io on 06.04.16.
@@ -59,13 +63,20 @@ public class DetailArtistFragment extends BaseFragment {
                 .getParcelable(AllArtistActivity.ARTIST);
 
 
+        Drawable asd = new IconicsDrawable(getActivity())
+                .icon(CustomFont.Icon.cFont_wait)
+                .color(Color.GRAY)
+                .sizePxX(1000)
+                .sizePxY(1000);
+
         Picasso.with(getActivity())
                 .load(artist.getCover().getBig())
+                .placeholder(asd)
                 .into(detailPhoto);
 
         try {
             ((DetailsArtistActivity) getActivity()).getSupportActionBar().setTitle(artist.getName());
-        }catch (Exception e){
+        }catch (Exception ignored){
 
         }
 
