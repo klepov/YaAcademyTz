@@ -4,6 +4,7 @@ import android.app.Activity;
 
 import dagger.Component;
 import klep.yaacademytz.allArtists.AllArtistPresenter;
+import klep.yaacademytz.api.GsonParseArtistsList;
 import klep.yaacademytz.dagger.modules.ApiModule;
 import klep.yaacademytz.dagger.scopes.UserScope;
 
@@ -14,4 +15,5 @@ import klep.yaacademytz.dagger.scopes.UserScope;
 @Component(dependencies = NetComponent.class, modules = ApiModule.class)
 public interface ApiComponent {
     void inject(AllArtistPresenter presenter);
+    void inject(GsonParseArtistsList parseArtistsList);
 }

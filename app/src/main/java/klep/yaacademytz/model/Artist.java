@@ -20,7 +20,7 @@ public class Artist implements Parcelable {
 
     @SerializedName("id")
     @Expose
-    public Integer id;
+    public Integer idArtist;
     @SerializedName("name")
     @Expose
     public String name;
@@ -51,15 +51,15 @@ public class Artist implements Parcelable {
     /**
      * @return The id
      */
-    public Integer getId() {
-        return id;
+    public Integer getIdArtists() {
+        return idArtist;
     }
 
     /**
      * @param id The id
      */
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdArtist(Integer idArtist) {
+        this.idArtist = idArtist;
     }
 
     /**

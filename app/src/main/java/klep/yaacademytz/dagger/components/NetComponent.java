@@ -1,5 +1,9 @@
 package klep.yaacademytz.dagger.components;
 
+import android.content.SharedPreferences;
+
+import com.google.gson.Gson;
+
 import javax.inject.Singleton;
 
 import dagger.Component;
@@ -16,4 +20,6 @@ import retrofit2.Retrofit;
 public interface NetComponent {
     Retrofit retrofit();
     OkHttpClient okHttpClient();
+    SharedPreferences sharedPreferences();
+    Gson gson();
 }

@@ -5,4 +5,5 @@ package klep.yaacademytz.utils;
  */
 public class Const {
     public static final String URL = "http://download.cdn.yandex.net/mobilization-2016/";
+    public static final String PREFERENCES_ARTISTS = "PREFERENCES_ARTISTS";
 }

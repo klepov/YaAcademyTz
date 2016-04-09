@@ -63,7 +63,12 @@ public class DetailArtistFragment extends BaseFragment {
                 .load(artist.getCover().getBig())
                 .into(detailPhoto);
 
-        ((DetailsArtistActivity) getActivity()).getSupportActionBar().setTitle(artist.getName());
+        try {
+            ((DetailsArtistActivity) getActivity()).getSupportActionBar().setTitle(artist.getName());
+        }catch (Exception e){
+
+        }
+
         genreDetail.setText(artist.getFullGenre());
         countMusicAndAlbumArtistDetail.setText(artist.getCountInfoDetail());
         biographyDetail.setText(artist.getDescription());

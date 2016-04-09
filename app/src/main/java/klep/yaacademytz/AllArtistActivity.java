@@ -1,10 +1,10 @@
 package klep.yaacademytz;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.widget.Toolbar;
 
 import klep.yaacademytz.allArtists.AllArtistFragment;
 import klep.yaacademytz.common.BaseActivity;
@@ -13,7 +13,7 @@ import klep.yaacademytz.detailArtist.DetailsArtistActivity;
 import klep.yaacademytz.model.Artist;
 
 
-public class AllArtistActivity extends BaseActivity implements AllArtistFragment.ItemSendToActivity{
+public class AllArtistActivity extends BaseActivity implements AllArtistFragment.ItemSendToActivity {
     private FragmentTransaction transaction;
 
     public static final String ARTIST = "ARTIST";
@@ -50,7 +50,7 @@ public class AllArtistActivity extends BaseActivity implements AllArtistFragment
     @Override
     public void itemSend(Artist artist) {
 
-        if (masterDetail) {
+        if (masterDetail || isTablet(this)) {
 
             sendToDetailPanel(artist);
 
@@ -81,6 +81,7 @@ public class AllArtistActivity extends BaseActivity implements AllArtistFragment
     /**
      * отображает фрагмент детальной информацим
      * об арститсе
+     *
      * @param artist выбранный артист
      */
     private void sendToDetailPanel(Artist artist) {
@@ -106,8 +107,11 @@ public class AllArtistActivity extends BaseActivity implements AllArtistFragment
     }
 
 
-
-
+    private boolean isTablet(Context context) {
+        boolean xlarge = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE);
+        boolean large = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
+        return (xlarge || large);
+    }
 
 
 }
