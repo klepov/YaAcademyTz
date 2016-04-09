@@ -79,12 +79,17 @@ public class AllArtistFragment extends BaseViewStateFragment<AllArtistView, AllA
 
     @Override
     public void showLoading() {
+        AllArtistViewState vs = (AllArtistViewState) viewState;
+        vs.setStateShowLoading();
+
         dialogFragment = new HelperDialogFragment();
         dialogFragment.show(getFragmentManager(), "DF");
     }
 
     @Override
     public void showError() {
+        AllArtistViewState vs = (AllArtistViewState) viewState;
+        vs.setStateShowError();
 
         if (dialogFragment != null) {
             dialogFragment.dismiss();
@@ -99,6 +104,8 @@ public class AllArtistFragment extends BaseViewStateFragment<AllArtistView, AllA
 
     @Override
     public void showAllArtist(List<Artist> listArtists) {
+        AllArtistViewState vs = (AllArtistViewState) viewState;
+        vs.setStateGetArtists();
 
         if (dialogFragment != null) {
             dialogFragment.dismiss();
@@ -125,7 +132,6 @@ public class AllArtistFragment extends BaseViewStateFragment<AllArtistView, AllA
     @NonNull
     @Override
     public ViewState createViewState() {
-        // TODO: 03.04.16 dagger
         return new AllArtistViewState();
     }
 
