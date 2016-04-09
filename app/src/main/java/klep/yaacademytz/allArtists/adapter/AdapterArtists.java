@@ -72,7 +72,7 @@ public class AdapterArtists extends RecyclerView.Adapter<AdapterArtists.ViewHold
     public void onBindViewHolder(ViewHolder holder, int position) {
         Artist artist = artists.get(position);
 
-        Drawable asd = new IconicsDrawable(context)
+        Drawable placeholderImg = new IconicsDrawable(context)
                 .icon(CustomFont.Icon.cFont_wait)
                 .color(Color.GRAY)
                 .sizePx(300);
@@ -83,7 +83,7 @@ public class AdapterArtists extends RecyclerView.Adapter<AdapterArtists.ViewHold
 
         Picasso.with(App.getApplication())
                 .load(artist.getCover().getSmall())
-                .placeholder(asd)
+                .placeholder(placeholderImg)
                 .into(holder.imageArtists);
 
 

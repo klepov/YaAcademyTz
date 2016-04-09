@@ -1,8 +1,11 @@
 package klep.yaacademytz;
 
+import android.annotation.TargetApi;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 
@@ -47,6 +50,7 @@ public class AllArtistActivity extends BaseActivity implements AllArtistFragment
      *
      * @param artist выбранный артист
      */
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void itemSend(Artist artist) {
 
@@ -57,7 +61,7 @@ public class AllArtistActivity extends BaseActivity implements AllArtistFragment
         } else {
             Intent intent = new Intent(this, DetailsArtistActivity.class);
             intent.putExtra(ARTIST, artist);
-            startActivity(intent);
+            startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
         }
 
     }

@@ -20,7 +20,7 @@ import klep.yaacademytz.model.Artist;
 import klep.yaacademytz.utils.CustomFont;
 
 /**
- * Created by klep.io on 06.04.16.
+ * Created by klep.io on 06.04.16 with love.
  */
 public class DetailArtistFragment extends BaseFragment {
 
@@ -41,7 +41,7 @@ public class DetailArtistFragment extends BaseFragment {
         return R.layout.detail_artist;
     }
 
-    public static final DetailArtistFragment getInstance(Bundle bundle) {
+    public static DetailArtistFragment getInstance(Bundle bundle) {
 
         DetailArtistFragment fragment = new DetailArtistFragment();
         fragment.setArguments(bundle);
@@ -58,12 +58,11 @@ public class DetailArtistFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.d("asd", "asd");
         Artist artist = this.getArguments()
                 .getParcelable(AllArtistActivity.ARTIST);
 
 
-        Drawable asd = new IconicsDrawable(getActivity())
+        Drawable placeholderImg = new IconicsDrawable(getActivity())
                 .icon(CustomFont.Icon.cFont_wait)
                 .color(Color.GRAY)
                 .sizePxX(1000)
@@ -71,12 +70,12 @@ public class DetailArtistFragment extends BaseFragment {
 
         Picasso.with(getActivity())
                 .load(artist.getCover().getBig())
-                .placeholder(asd)
+                .placeholder(placeholderImg)
                 .into(detailPhoto);
 
         try {
             ((DetailsArtistActivity) getActivity()).getSupportActionBar().setTitle(artist.getName());
-        }catch (Exception ignored){
+        }catch (NullPointerException ignored){
 
         }
 
