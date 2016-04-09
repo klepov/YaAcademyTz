@@ -6,4 +6,7 @@
     <string name="title_masterartist_list">DetailArtist</string>
     <string name="title_masterartist_detail">MasterArtist Detail</string>
     <string name="biography">Биография</string>
+    <string name="dialog_wait">Пожалуйста, ожидайте…</string>
+    <string name="trouble_server">Нет соединение с сервером…</string>
+    <string name="try_conn">повторить</string>
 </resources>

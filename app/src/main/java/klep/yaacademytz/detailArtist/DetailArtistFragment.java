@@ -24,6 +24,7 @@ import klep.yaacademytz.utils.CustomFont;
  */
 public class DetailArtistFragment extends BaseFragment {
 
+    public static final int SIZE_IMAGE = 1000;
     @Bind(R.id.detailPhoto)
     ImageView detailPhoto;
 
@@ -65,8 +66,8 @@ public class DetailArtistFragment extends BaseFragment {
         Drawable placeholderImg = new IconicsDrawable(getActivity())
                 .icon(CustomFont.Icon.cFont_wait)
                 .color(Color.GRAY)
-                .sizePxX(1000)
-                .sizePxY(1000);
+                .sizePxX(SIZE_IMAGE)
+                .sizePxY(SIZE_IMAGE);
 
         Picasso.with(getActivity())
                 .load(artist.getCover().getBig())
@@ -75,7 +76,7 @@ public class DetailArtistFragment extends BaseFragment {
 
         try {
             ((DetailsArtistActivity) getActivity()).getSupportActionBar().setTitle(artist.getName());
-        }catch (NullPointerException ignored){
+        }catch (ClassCastException ignored){
 
         }
 

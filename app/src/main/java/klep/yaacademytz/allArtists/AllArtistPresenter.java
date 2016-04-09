@@ -61,9 +61,7 @@ public class AllArtistPresenter extends MvpBasePresenter<AllArtistView> {
         subscriber = new Subscriber<List<Artist>>() {
             @Override
             public void onCompleted() {
-//                getView().showAllArtist(artists);
-
-
+                getView().showAllArtist(artists);
             }
 
             @Override
@@ -83,8 +81,8 @@ public class AllArtistPresenter extends MvpBasePresenter<AllArtistView> {
             public void onNext(List<Artist> list) {
 
 
-
-                getView().showAllArtist(list);
+                artists = list;
+//                getView().showAllArtist(list);
             }
         };
 
