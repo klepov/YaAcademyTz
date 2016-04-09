@@ -21,6 +21,7 @@ import klep.yaacademytz.R;
 import klep.yaacademytz.allArtists.adapter.AdapterArtists;
 import klep.yaacademytz.common.BaseViewStateFragment;
 import klep.yaacademytz.common.HelperDialogFragment;
+import klep.yaacademytz.dagger.modules.AllArtistsModule;
 import klep.yaacademytz.model.Artist;
 
 /**
@@ -38,13 +39,15 @@ public class AllArtistFragment extends BaseViewStateFragment<AllArtistView, AllA
     String tryConnection;
 
     private AdapterArtists adapter;
-    private List<Artist> artists;
+    private List<Artist> artists = new ArrayList<>();
     private Bundle bundle;
 
     private DialogFragment dialogFragment;
     private ItemSendToActivity itemSendToActivity;
 
     private View view;
+
+    AllArtistComponent artistComponent;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -145,7 +148,8 @@ public class AllArtistFragment extends BaseViewStateFragment<AllArtistView, AllA
     @Override
     public AllArtistPresenter createPresenter() {
         // TODO: 03.04.16 dagger
-        return new AllArtistPresenter();
+//        return new AllArtistPresenter();
+        return artistComponent.presenter();
     }
 
 
@@ -158,5 +162,12 @@ public class AllArtistFragment extends BaseViewStateFragment<AllArtistView, AllA
         void itemSend(Artist artist);
 
         void itemSendFirst(Artist artist);
+    }
+
+    @Override
+    protected void injectDependencies() {
+        artistComponent = DaggerAllArtistComponent.builder()
+                .allArtistsModule(new AllArtistsModule())
+                .build();
     }
 }

@@ -15,6 +15,7 @@ import com.hannesdorfmann.mosby.mvp.viewstate.ViewState;
 
 import butterknife.ButterKnife;
 import icepick.Icepick;
+import icepick.processor.IcepickProcessor;
 
 /**
  * Created by klep.io on 31.01.16.
@@ -24,13 +25,21 @@ extends MvpViewStateFragment<V,P>{
 
     @LayoutRes protected abstract int getLayoutRes();
 
+//    @Nullable
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+//        View view = inflater.inflate(getLayoutRes(),container,false);
+//        ButterKnife.bind(this,view);
+//        Icepick.restoreInstanceState(this,savedInstanceState);
+//        return view;
+//    }
+
+
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(getLayoutRes(),container,false);
-        ButterKnife.bind(this,view);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         Icepick.restoreInstanceState(this,savedInstanceState);
-        return view;
+        return inflater.inflate(getLayoutRes(), container, false);
     }
 
     @Override
@@ -41,12 +50,18 @@ extends MvpViewStateFragment<V,P>{
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        injectDependencies();
         super.onViewCreated(view, savedInstanceState);
+        ButterKnife.bind(this,view);
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    protected void injectDependencies(){
+
     }
 }

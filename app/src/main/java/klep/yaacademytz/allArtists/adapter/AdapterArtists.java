@@ -1,10 +1,8 @@
 package klep.yaacademytz.allArtists.adapter;
 
-import android.app.Application;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.mikepenz.iconics.Iconics;
 import com.mikepenz.iconics.IconicsDrawable;
 import com.squareup.picasso.Picasso;
 
@@ -41,6 +38,7 @@ public class AdapterArtists extends RecyclerView.Adapter<AdapterArtists.ViewHold
 
     @Inject
     Context context;
+
     private List<Artist> artists;
     private CallbackItemClickListener callbackItemClickListener;
 
@@ -48,6 +46,13 @@ public class AdapterArtists extends RecyclerView.Adapter<AdapterArtists.ViewHold
         App.getAppComponent().inject(this);
         this.artists = artists;
         this.callbackItemClickListener = callbackItemClickListener;
+    }
+
+    public AdapterArtists(CallbackItemClickListener callbackItemClickListener) {
+        App.getAppComponent().inject(this);
+
+        this.callbackItemClickListener = callbackItemClickListener;
+
     }
 
 
@@ -139,7 +144,7 @@ public class AdapterArtists extends RecyclerView.Adapter<AdapterArtists.ViewHold
     }
 
     public interface CallbackItemClickListener {
-//        2 callback
+        //        2 callback
         void itemClickedFromViewHolder(Artist artist);
     }
 }
