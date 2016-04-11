@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/classic16dp"
@@ -15,11 +16,14 @@
             android:id="@+id/imagePrevArtist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/artist_image_desc" />
+            android:background="@color/colorAccent"
+            android:contentDescription="@string/artist_image_desc"
+            tools:layout_height="300px"
+            tools:layout_width="300px" />
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
             android:layout_marginLeft="@dimen/classic16dp"
             android:baselineAligned="false"
             android:orientation="vertical">
@@ -31,24 +35,33 @@
                 android:layout_marginTop="@dimen/marginTopPrevArtist"
                 android:maxLines="2"
                 android:singleLine="false"
-                android:textAppearance="?android:attr/textAppearanceLarge" />
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                tools:text="херанука по роялю" />
 
             <me.grantland.widget.AutofitTextView
                 android:id="@+id/genreArtist"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/marginTopPrevArtist"
-                android:maxLines="2"
+                android:maxLines="1"
+
                 android:singleLine="false"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                tools:text="рузге реп, треб"
+                android:gravity="top"
+                android:layout_weight="1" />
 
             <me.grantland.widget.AutofitTextView
                 android:id="@+id/countMusicAndAlbumArtist"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
                 android:maxLines="2"
                 android:singleLine="true"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
+
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                tools:text="265 песен,265 песен"
+                android:layout_marginBottom="8dp" />
         </LinearLayout>
     </LinearLayout>
 

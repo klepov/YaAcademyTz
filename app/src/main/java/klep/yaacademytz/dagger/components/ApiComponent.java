@@ -3,6 +3,7 @@ package klep.yaacademytz.dagger.components;
 import android.app.Activity;
 
 import dagger.Component;
+import klep.yaacademytz.AllArtistActivity;
 import klep.yaacademytz.allArtists.AllArtistPresenter;
 import klep.yaacademytz.api.GsonParseArtistsList;
 import klep.yaacademytz.dagger.modules.ApiModule;

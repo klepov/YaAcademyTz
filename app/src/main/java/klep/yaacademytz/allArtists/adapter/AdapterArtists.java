@@ -1,6 +1,7 @@
 package klep.yaacademytz.allArtists.adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.mikepenz.iconics.IconicsDrawable;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import java.util.List;
 
@@ -74,7 +76,7 @@ public class AdapterArtists extends RecyclerView.Adapter<AdapterArtists.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
         Artist artist = artists.get(position);
 
         Drawable placeholderImg = new IconicsDrawable(context)

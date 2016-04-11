@@ -1,38 +1,23 @@
 package klep.yaacademytz.allArtists;
 
 import android.content.SharedPreferences;
-import android.os.Parcelable;
-import android.util.Log;
-import android.view.View;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonArray;
 import com.google.gson.reflect.TypeToken;
 import com.hannesdorfmann.mosby.mvp.MvpBasePresenter;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.util.List;
 
 import javax.inject.Inject;
 
 import klep.yaacademytz.App;
-import klep.yaacademytz.api.GsonParseArtists;
-import klep.yaacademytz.api.GsonParseArtistsList;
 import klep.yaacademytz.api.YaApi;
 import klep.yaacademytz.model.Artist;
 import klep.yaacademytz.utils.Const;
-import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
-/**
- * Created by klep.io on 03.04.16.
- */
 public class AllArtistPresenter extends MvpBasePresenter<AllArtistView> {
 
     @Inject
@@ -52,9 +37,12 @@ public class AllArtistPresenter extends MvpBasePresenter<AllArtistView> {
         App.getApiComponent().inject(this);
     }
 
-    public void getArtists(){
+    /**
+     * получение артистов
+     */
+    public void getArtists() {
 
-        if (getView() != null){
+        if (getView() != null) {
             getView().showLoading();
         }
 
@@ -66,23 +54,22 @@ public class AllArtistPresenter extends MvpBasePresenter<AllArtistView> {
 
             @Override
             public void onError(Throwable e) {
-                String json = preferences.getString(Const.PREFERENCES_ARTISTS,null);
+//                попытка вытащить предыдущий ответ
+//                если его нет, отдать ошибку
+                String json = preferences.getString(Const.PREFERENCES_ARTISTS, null);
                 if (json == null) {
                     getView().showError();
-                }
-                else {
-                    List<Artist> kek = gson.fromJson(json,new TypeToken<List<Artist>>(){}.getType());
-                    getView().showAllArtist(kek);
+                } else {
+                    List<Artist> artists = gson.fromJson(json, new TypeToken<List<Artist>>() {
+                    }.getType());
+                    getView().showAllArtist(artists);
                 }
 
             }
 
             @Override
             public void onNext(List<Artist> list) {
-
-
                 artists = list;
-//                getView().showAllArtist(list);
             }
         };
 
@@ -92,4 +79,25 @@ public class AllArtistPresenter extends MvpBasePresenter<AllArtistView> {
                 .subscribe(subscriber);
     }
 
+    @Override
+    public void detachView(boolean retainInstance) {
+        super.detachView(retainInstance);
+        /*
+            если не созранено состояние, то отписаться
+         */
+        if (!retainInstance) {
+            cancelSub();
+        }
+    }
+
+    @Override
+    public void attachView(AllArtistView view) {
+        super.attachView(view);
+    }
+
+    private void cancelSub() {
+        if (subscriber != null && !subscriber.isUnsubscribed()) {
+            subscriber.unsubscribe();
+        }
+    }
 }

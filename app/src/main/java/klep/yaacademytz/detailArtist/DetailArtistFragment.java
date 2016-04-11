@@ -1,5 +1,6 @@
 package klep.yaacademytz.detailArtist;
 
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 
 import com.mikepenz.iconics.IconicsDrawable;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 
 import butterknife.Bind;
 import klep.yaacademytz.AllArtistActivity;
@@ -74,9 +76,10 @@ public class DetailArtistFragment extends BaseFragment {
                 .placeholder(placeholderImg)
                 .into(detailPhoto);
 
+
         try {
             ((DetailsArtistActivity) getActivity()).getSupportActionBar().setTitle(artist.getName());
-        }catch (ClassCastException ignored){
+        } catch (ClassCastException ignored) {
 
         }
 

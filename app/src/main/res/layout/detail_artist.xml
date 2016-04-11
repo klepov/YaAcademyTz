@@ -11,7 +11,6 @@
             android:id="@+id/detailPhoto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:contentDescription="@string/artist_image_desc"
             android:scaleType="centerCrop" />
 
@@ -20,7 +19,6 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/classic16dp"
             android:layout_marginRight="@dimen/classic16dp"
-            android:layout_weight="2"
             android:orientation="vertical">
 
             <TextView

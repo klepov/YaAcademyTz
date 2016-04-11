@@ -1,11 +1,15 @@
 package klep.yaacademytz.allArtists;
 
 import android.app.Activity;
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -24,9 +28,7 @@ import klep.yaacademytz.common.HelperDialogFragment;
 import klep.yaacademytz.dagger.modules.AllArtistsModule;
 import klep.yaacademytz.model.Artist;
 
-/**
- * Created by klep.io on 03.04.16.
- */
+
 public class AllArtistFragment extends BaseViewStateFragment<AllArtistView, AllArtistPresenter>
         implements AllArtistView, AdapterArtists.CallbackItemClickListener {
     @Bind(R.id.recycleArtists)
@@ -75,11 +77,14 @@ public class AllArtistFragment extends BaseViewStateFragment<AllArtistView, AllA
         }
         adapter = new AdapterArtists(artists, this);
         recyclerView.setAdapter(adapter);
-
+        recyclerView.addItemDecoration(new DividerItem(getContext()));
 
     }
 
 
+    /**
+     * обработка загрузки
+     */
     @Override
     public void showLoading() {
         AllArtistViewState vs = (AllArtistViewState) viewState;
@@ -89,6 +94,9 @@ public class AllArtistFragment extends BaseViewStateFragment<AllArtistView, AllA
         dialogFragment.show(getFragmentManager(), "DF");
     }
 
+    /**
+     * обработка ошибок
+     */
     @Override
     public void showError() {
         AllArtistViewState vs = (AllArtistViewState) viewState;
@@ -105,6 +113,10 @@ public class AllArtistFragment extends BaseViewStateFragment<AllArtistView, AllA
         }).show();
     }
 
+    /**
+     * добавление артистов, пришедших с презентера
+     * @param listArtists список артистов
+     */
     @Override
     public void showAllArtist(List<Artist> listArtists) {
         AllArtistViewState vs = (AllArtistViewState) viewState;
@@ -147,12 +159,14 @@ public class AllArtistFragment extends BaseViewStateFragment<AllArtistView, AllA
     @NonNull
     @Override
     public AllArtistPresenter createPresenter() {
-        // TODO: 03.04.16 dagger
-//        return new AllArtistPresenter();
         return artistComponent.presenter();
     }
 
 
+    /**
+     * @param artist
+     * коллбек для Activity
+     */
     @Override
     public void itemClickedFromViewHolder(Artist artist) {
         itemSendToActivity.itemSend(artist);
@@ -164,10 +178,42 @@ public class AllArtistFragment extends BaseViewStateFragment<AllArtistView, AllA
         void itemSendFirst(Artist artist);
     }
 
+    /**
+     * внедрение зависимостей
+     */
     @Override
     protected void injectDependencies() {
         artistComponent = DaggerAllArtistComponent.builder()
                 .allArtistsModule(new AllArtistsModule())
                 .build();
+    }
+
+    /**
+     * класс, для добавление разделений между элементами RecyclerView
+     */
+    class DividerItem extends RecyclerView.ItemDecoration{
+        private Drawable divider;
+        public DividerItem(Context context) {
+            divider = ContextCompat.getDrawable(context,R.drawable.line_divider);
+        }
+
+        @Override
+        public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
+            int left = parent.getPaddingLeft();
+            int right = parent.getWidth() - parent.getPaddingRight();
+
+            int childCount = parent.getChildCount();
+            for (int i = 0; i <childCount; i++){
+                View child = parent.getChildAt(i);
+
+                RecyclerView.LayoutParams params = (RecyclerView.LayoutParams) child.getLayoutParams();
+
+                int top = child.getBottom() + params.bottomMargin;
+                int bottom = top + divider.getIntrinsicHeight();
+
+                divider.setBounds(left,top,right,bottom);
+                divider.draw(c);
+            }
+        }
     }
 }
